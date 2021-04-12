@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -63,6 +64,78 @@ bool recIsPalindrome(string w)
 
 }
 
+vector<string> permutations(string w) 
+{
+    vector<string> perms;
+
+    if (w.size() <= 1) {
+        perms.push_back(w);
+        return perms;
+    }
+
+    for (int i=0; i<w.size(); i++) {
+        string letterToRemove = w.substr(i,1);
+        string shorterWord = w.substr(0,i) + w.substr(i+1,w.size()-i-1);
+        vector<string> shorterPerms = permutations(shorterWord);
+        for (int j=0; j<shorterPerms.size(); j++) {
+            perms.push_back(letterToRemove + shorterPerms[j]);
+        }
+    }
+
+    return perms;
+}
+
+int maze[6][6] =
+    {
+        {2, 2, 2, 2, 2, 0},
+        {0, 0, 2, 0, 0, 0},
+        {3, 0, 2, 2, 2, 0},
+        {2, 0, 0, 0, 2, 0},
+        {2, 2, 2, 2, 2, 0},
+        {0, 0, 2, 0, 0, 0}};
+
+bool findCheese(int x, int y)
+{
+    if ((x < 0) || (x > 5)) {
+        // row outside maze
+        return false;
+    }
+    if ((y < 0) || (y > 5)) {
+        // colummn outside maze
+        return false;
+    }
+    if (maze[y][x] == 3) {
+        // Cheese found
+        return true;
+    }
+    if (maze[y][x] == 0) {
+        // Wall found
+        return false;
+    }
+    if (maze[y][x] == 1) {
+        // Wall found
+        return false;
+    }
+    maze[y][x] = 1; // Mark space visited. Prevents starvation
+    bool cheeseFoundUp = findCheese(y-1,x);
+    if (cheeseFoundUp) {
+        return true;
+    }
+    bool cheeseFoundRight = findCheese(y,x+1);
+    if (cheeseFoundRight) {
+        return true;
+    }
+    bool cheeseFoundDown = findCheese(y+1,x);
+    if (cheeseFoundDown) {
+        return true;
+    }
+    bool cheeseFoundLeft = findCheese(y,x-1);
+    if (cheeseFoundLeft) {
+        return true;
+    }
+    return false;
+}
+
 
 int main() 
 {
@@ -101,5 +174,14 @@ int main()
     cout << "recIsPalindrome(radar): " << ((recIsPalindrome("radar")) ? "TRUE" : "FALSE") << endl;
     cout << "recIsPalindrome(racecar): " << ((recIsPalindrome("racecar")) ? "TRUE" : "FALSE") << endl;
     cout << "recIsPalindrome(rabecar): " << ((recIsPalindrome("rabecar")) ? "TRUE" : "FALSE") << endl;
+
+    cout << "Permutations of eat:" << endl;
+    vector<string> t1 = permutations("Bienve");
+    for (int i=0; i<t1.size(); i++) {
+        cout << t1[i] << endl;
+    }
+
+    cout << "Maze test: " << endl;
+    cout << (findCheese(0,0) ? "CHEESE FOUND" : "I AM STILL HUNGRY") << endl;
 
 }
