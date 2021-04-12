@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -51,8 +52,17 @@ long recFiboFastHelper(int n, int f0, int f1)
 long recFiboFast(int n)
 {
     return recFiboFastHelper(n, 0, 1); 
+}
+
+
+bool recIsPalindrome(string w)
+{
+
+    if (w.size() <= 1 ) return true;
+    return  (w[0] == w[w.size()-1]) && recIsPalindrome(w.substr(1,w.size()-2));
 
 }
+
 
 int main() 
 {
@@ -87,5 +97,9 @@ int main()
     cout << "recFiboFast(10)" << recFiboFast(10) << endl;
     cout << "recFiboFast(25)" << recFiboFast(25) << endl;
     cout << "recFiboFast(100)" << recFiboFast(100) << endl;
+
+    cout << "recIsPalindrome(radar): " << ((recIsPalindrome("radar")) ? "TRUE" : "FALSE") << endl;
+    cout << "recIsPalindrome(racecar): " << ((recIsPalindrome("racecar")) ? "TRUE" : "FALSE") << endl;
+    cout << "recIsPalindrome(rabecar): " << ((recIsPalindrome("rabecar")) ? "TRUE" : "FALSE") << endl;
 
 }
