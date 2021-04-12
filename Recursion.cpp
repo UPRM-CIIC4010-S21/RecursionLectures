@@ -87,7 +87,7 @@ vector<string> permutations(string w)
 
 int maze[6][6] =
     {
-        {2, 2, 2, 2, 2, 0},
+        {2, 2, 2, 2, 2, 0, 0},
         {0, 0, 2, 0, 0, 0},
         {3, 0, 2, 2, 2, 0},
         {2, 0, 0, 0, 2, 0},
@@ -113,7 +113,7 @@ bool findCheese(int x, int y)
         return false;
     }
     if (maze[y][x] == 1) {
-        // Wall found
+        // Space previously visited
         return false;
     }
     maze[y][x] = 1; // Mark space visited. Prevents starvation
