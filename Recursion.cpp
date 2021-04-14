@@ -94,46 +94,46 @@ int maze[6][6] =
         {0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0}};
 
-bool findCheese(int y, int x)
+string findCheese(int y, int x)
 {
     if ((x < 0) || (x > 5)) {
         // row outside maze
-        return false;
+        return string("");
     }
     if ((y < 0) || (y > 5)) {
         // colummn outside maze
-        return false;
+        return string("");
     }
     if (maze[y][x] == 3) {
         // Cheese found
-        return true;
+        return "(" + to_string(y) + ", " + to_string(x) + ")";
     }
     if (maze[y][x] == 0) {
         // Wall found
-        return false;
+        return string("");
     }
     if (maze[y][x] == 1) {
         // Space previously visited
-        return false;
+        return string("");
     }
     maze[y][x] = 1; // Mark space visited. Prevents starvation
-    bool cheeseFoundUp = findCheese(y-1,x);
-    if (cheeseFoundUp) {
-        return true;
+    string cheesePathUp = findCheese(y-1,x);
+    if (cheesePathUp.size() > 0) {
+        return "(" + to_string(y) + ", " + to_string(x) + ")" + cheesePathUp;
     }
-    bool cheeseFoundRight = findCheese(y,x+1);
-    if (cheeseFoundRight) {
-        return true;
+    string cheesePathRight = findCheese(y,x+1);
+    if (cheesePathRight.size() > 0) {
+        return "(" + to_string(y) + ", " + to_string(x) + ")" + cheesePathRight;
     }
-    bool cheeseFoundDown = findCheese(y+1,x);
-    if (cheeseFoundDown) {
-        return true;
+    string cheesePathDown = findCheese(y+1,x);
+    if (cheesePathDown.size() > 0) {
+        return "(" + to_string(y) + ", " + to_string(x) + ")" + cheesePathDown;
     }
-    bool cheeseFoundLeft = findCheese(y,x-1);
-    if (cheeseFoundLeft) {
-        return true;
+    string cheesePathLeft = findCheese(y,x-1);
+    if (cheesePathLeft.size() > 0) {
+        return "(" + to_string(y) + ", " + to_string(x) + ")" + cheesePathLeft;
     }
-    return false;
+    return string("");
 }
 
 
@@ -182,6 +182,7 @@ int main()
     }
 
     cout << "Maze test: " << endl;
-    cout << (findCheese(0,0) ? "CHEESE FOUND" : "I AM STILL HUNGRY") << endl;
+    string pathToCheese = findCheese(0,0);
+    cout << ((pathToCheese.size() > 0) ? "CHEESE FOUND AT: " + pathToCheese : "I AM STILL HUNGRY") << endl;
 
 }
