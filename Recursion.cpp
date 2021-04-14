@@ -85,16 +85,41 @@ vector<string> permutations(string w)
     return perms;
 }
 
-int maze[6][6] =
-    {
-        {2, 2, 2, 0, 0, 0},
-        {0, 0, 2, 0, 0, 0},
-        {0, 0, 3, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0}};
+class Maze {
+private:
+    int **maze;
+    int columns;
+    int rows;
 
-string findCheese(int y, int x)
+public:
+    Maze(int** maze, int rows, int cols);
+    bool visitedAt(int row, int col) { return maze[row][col] == 1; }
+    bool cheeseAt(int row, int col) { return maze[row][col] == 3; }
+    bool blockedAt(int row, int col) { return maze[row][col] == 0; }
+
+    void setVisited(int row, int col) { maze[row][col] = 1; }
+
+    string findCheese(int row , int col);
+};
+
+Maze::Maze(int** m, int rows, int cols)
+{
+    this->maze = new int*[rows];
+    for (int i=0; i<rows; i++) {
+        this->maze[i] = new int[cols];
+    }
+    this->columns = cols;
+    this->rows = rows;
+
+    for (int i=0; i<rows; i++) {
+        for (int j=0; j<cols; j++) {
+            this->maze[i][j] = m[i][j];
+        }
+    }
+}
+
+
+string Maze::findCheese(int y, int x)
 {
     if ((x < 0) || (x > 5)) {
         // row outside maze
@@ -181,8 +206,19 @@ int main()
         cout << t1[i] << endl;
     }
 
+    int maze[6][6] =
+        {
+            {2, 2, 2, 0, 0, 0},
+            {0, 0, 2, 0, 0, 0},
+            {0, 0, 3, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0}};
+
+    Maze testMaze1((int **) maze, 6, 6);
+    
     cout << "Maze test: " << endl;
-    string pathToCheese = findCheese(0,0);
+    string pathToCheese = testMaze1.findCheese(0,0);
     cout << ((pathToCheese.size() > 0) ? "CHEESE FOUND AT: " + pathToCheese : "I AM STILL HUNGRY") << endl;
 
 }
