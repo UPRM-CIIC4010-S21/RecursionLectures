@@ -87,14 +87,14 @@ vector<string> permutations(string w)
 
 int maze[6][6] =
     {
-        {2, 2, 2, 2, 2, 0, 0},
+        {2, 2, 2, 0, 0, 0},
         {0, 0, 2, 0, 0, 0},
-        {3, 0, 2, 2, 2, 0},
-        {2, 0, 0, 0, 2, 0},
-        {2, 2, 2, 2, 2, 0},
-        {0, 0, 2, 0, 0, 0}};
+        {0, 0, 3, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0}};
 
-bool findCheese(int x, int y)
+bool findCheese(int y, int x)
 {
     if ((x < 0) || (x > 5)) {
         // row outside maze
